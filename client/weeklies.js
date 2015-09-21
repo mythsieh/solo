@@ -2,7 +2,7 @@ angular.module('weeklies', [])
   .controller('TableController', function($scope, Tasks){
     angular.extend($scope, Tasks);
   })
-  .factory('Tasks', function(){
+  .factory('Tasks', function($http){
     var tasks = [
       {
         name: 'Walk Sebastian',

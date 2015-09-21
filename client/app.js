@@ -1,6 +1,9 @@
 angular.module('app', [])
-  .controller('TableController', function($scope){
-    $scope.tasks = [
+  .controller('TableController', function($scope, Tasks){
+    angular.extend($scope, Tasks);
+  })
+  .factory('Tasks', function(){
+    var tasks = [
       {
         name: 'Walk Sebastian',
         sunday: 0,
@@ -12,7 +15,7 @@ angular.module('app', [])
         saturday: 1
       }
     ];
-    $scope.addTask = function(task){
+    var addTask = function(task){
       var obj = {
         name: task,
         sunday: 0,
@@ -23,9 +26,9 @@ angular.module('app', [])
         friday: 0,
         saturday: 0
       };
-      $scope.tasks.push(obj);
+      tasks.push(obj);
     };
-    $scope.updateDay = function(value){
+    var updateDay = function(value){
       if (typeof value === 'number'){
         if (this.value < 2){
           this.value++;
@@ -34,7 +37,13 @@ angular.module('app', [])
         }
       }
     }
-    $scope.dayClicked = function($index){
+    var dayClicked = function($index){
       console.log($index);
     }
-  })
+    return {
+      tasks: tasks,
+      addTask: addTask,
+      updateDay: updateDay,
+      dayClicked: dayClicked
+    }
+  });

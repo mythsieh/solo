@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+  <head>
+    <meta charset="utf-8" />
+    <title>Goal Tracking</title>
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+  </head>
+  <body>
+    <h1>Weekly Goal Tracking</h1>
+    <div class='navigation'>
+      <ul>
+        <li><a href='#/links' class='index'>NavBar Option1</a></li>
+        <li><a href='#/shorten' class='create'>NavBar Option2</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Name: </h2>
+      <h2>Today is: </h2>
+    </div>
+    <div ng-controller="TableController">
+      <input type="text" placeholder="new todo" ng-model="newTask">
+      <button ng-click="addTask(newTask); newTask =''">Add me!</button>
+      <table id="myTable">
+        <thead>
+          <tr>
+            <th>Taskname</th>
+            <th>Sunday</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="task in tasks">
+            <td ng-repeat="(key, value) in task" ng-click="updateDay(value);" ng-class="{'red': value === 0, 'green': value === 1, 'default': value === 2}">{{value}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <section>
+        <h1>$rootScope</h1>
+        <pre><span>{{tasks | json}}</span></pre>
+      </section>
+    </div>
+
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

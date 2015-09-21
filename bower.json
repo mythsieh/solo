@@ -1,0 +1,21 @@
+{
+  "name": "2015-08-solo",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mythsieh/2015-08-solo",
+  "authors": [
+    "Mike Hsieh <mythsieh@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "client/lib"
+  ],
+  "dependencies": {
+    "angular": "~1.4.6",
+    "angular-route": "~1.4.6"
+  }
+}

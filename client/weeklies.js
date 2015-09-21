@@ -1,4 +1,4 @@
-angular.module('app', [])
+angular.module('weeklies', [])
   .controller('TableController', function($scope, Tasks){
     angular.extend($scope, Tasks);
   })

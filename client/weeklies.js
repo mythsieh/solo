@@ -15,6 +15,16 @@ angular.module('weeklies', [])
         saturday: 1
       }
     ];
+
+    // when landing on the page, get all tasks and show them
+    $http.get('/api/tasks')
+      .success(function(data){
+        console.log('i am in http get: ', data);
+      })
+      .error(function(data){
+        console.log('Error: ' + data);
+      });
+    
     var addTask = function(task){
       var obj = {
         name: task,
@@ -28,6 +38,7 @@ angular.module('weeklies', [])
       };
       tasks.push(obj);
     };
+    
     var updateDay = function(value){
       if (typeof value === 'number'){
         if (this.value < 2){
@@ -37,6 +48,7 @@ angular.module('weeklies', [])
         }
       }
     }
+    
     var dayClicked = function($index){
       console.log($index);
     }

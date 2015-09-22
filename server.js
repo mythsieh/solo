@@ -15,8 +15,11 @@ var mongoose = require('mongoose');
 
 // to host locally, db_name will automatically be created
 // mongoose.connect('mongodb://localhost/db_name');
+// MONGOLAB_URI: mongodb://heroku_hvfg67r8:p86akge5u56ktlk93g4nknk0fr@ds051843.mongolab.com:51843/heroku_hvfg67r8
 
-var mongoURI = process.env.CUSTOMCONNSTR_MONGOLAB_URI || 'mongodb://localhost/weekliesdb';
+// var mongoURI = process.env.CUSTOMCONNSTR_MONGOLAB_URI || 'mongodb://localhost/weekliesdb';
+var mongoURI = 'mongodb://heroku_hvfg67r8:p86akge5u56ktlk93g4nknk0fr@ds051843.mongolab.com:51843/heroku_hvfg67r8' || 'mongodb://localhost/weekliesdb';
+
 //connect to database
 mongoose.connect(mongoURI);
 

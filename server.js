@@ -59,6 +59,13 @@ router.post('/tasks', function(req, res){
   // Create a task, information comes from AJAX request from Angular
   Task.create({
     name: req.body.name,
+    sunday: 0,
+    monday: 0,
+    tuesday: 0,
+    wednesday: 0,
+    thursday: 0,
+    friday: 0,
+    saturday: 0,
     done: false
   }, function(err, task){
     if (err) {
@@ -75,24 +82,57 @@ router.post('/tasks', function(req, res){
 });
 
 //delete a task
+// router.delete('/tasks/:task_id', function(req, res){
 router.delete('/tasks/:task_id', function(req, res){
+  var taskID = req.url.slice(7);
+  console.log(taskID);
   Task.remove({
-    _id: req.params.todo_id
-  }, function(err, task){
-    if (err) {
-      res.send(err);
-    }
-    // get and return all the tasks after you create another
-    Task.find(function(err, tasks){
+    _id: taskID
+    }, function (err, task){
       if (err){
         res.send(err);
       }
-      res.json(todos);
+      Task.find(function(err, tasks){
+        if (err){
+          res.send(err);
+        }
+        res.json(tasks);
+      });
+    });
+  // Task.remove({
+  //   _id: req.params.todo_id
+  // }, function(err, task){
+  //   if (err) {
+  //     res.send(err);
+  //   }
+  //   // get and return all the tasks after you create another
+  //   Task.find(function(err, tasks){
+  //     if (err){
+  //       res.send(err);
+  //     }
+  //     res.json(todos);
+  //   })
+  // })
+  // res.end();
+})
+
+//I need to add an update here later
+
+router.put('/tasks', function(req, res){
+  Task.findOneAndUpdate({_id: req.body._id}, req.body, function(err, task){
+    if (err) {
+      res.send(err);
+    }
+    Task.find(function(err, tasks){
+      if (err) {
+        res.send(err);
+      }
+      res.json(tasks);
     })
   })
 })
 
-//I need to add an update here later
+//Clear all tasks button
 
 
 

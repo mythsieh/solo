@@ -31,6 +31,7 @@ td {
 .red {
     background: red;
     color: red;
+    font-family: "Empty";
 }
 .green {
     background: green;

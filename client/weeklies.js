@@ -3,22 +3,16 @@ angular.module('weeklies', [])
     angular.extend($scope, Tasks);
   })
   .factory('Tasks', function($http){
-    var tasks = [
-      {
-        name: 'Walk Sebastian',
-        sunday: 0,
-        monday: 0,
-        tuesday: 1,
-        wednesday: 1,
-        thursday: 2,
-        friday: 2,
-        saturday: 1
-      }
-    ];
+    var tasks = [];
 
     // when landing on the page, get all tasks and show them
     $http.get('/api/tasks')
       .success(function(data){
+        //data is an array of tasks
+        for (var i = 0 ; i < data.length; i++){
+          tasks.push(data[i]);
+        }
+        // tasks = data;
         console.log('i am in http get: ', data);
       })
       .error(function(data){
@@ -36,26 +30,60 @@ angular.module('weeklies', [])
         friday: 0,
         saturday: 0
       };
-      tasks.push(obj);
+      $http.post('/api/tasks', obj)
+        .success(function(data){
+          console.log(' i am in http post: ', data);
+          tasks.push(data[data.length - 1]);
+        })
+        .error(function(data){
+          console.log('Error: ' + data);
+        })
     };
     
-    var updateDay = function(value){
-      if (typeof value === 'number'){
-        if (this.value < 2){
-          this.value++;
-        } else {
-          this.value = 0;
-        }
+    var updateDay = function(day, obj){
+      if (obj[day] < 2){
+        obj[day]++;
+      } else {
+        obj[day] = 0;
       }
+      $http.put('/api/tasks', obj)
+        .success(function(){
+          console.log('Success!');
+        }).error(function(data){
+          console.log('Error: ' + data);
+        });
     }
     
-    var dayClicked = function($index){
-      console.log($index);
-    }
+    var deleteTask = function(task){
+      var result;
+      // go through the tasks array and find matching name
+      for (var i = 0; i < this.tasks.length; i++){
+        if (this.tasks[i].name === task){
+          result = this.tasks[i];
+        }
+      }
+      // if result was found
+      if (result){
+        var url = '/api/tasks/' + result._id;
+        // $http.delete('/api/tasks')
+        $http.delete(url)
+          .success(function(){
+            console.log('Sent through http delete!');
+          }).error(function(data){
+            console.log('Error in delete: ', data);
+          })        
+      } else {
+        console.log('Task not found!');
+      }
+    };
+
     return {
       tasks: tasks,
       addTask: addTask,
       updateDay: updateDay,
-      dayClicked: dayClicked
-    }
+      deleteTask: deleteTask
+    };
+
   });
+
+//TIL: Angular will not refresh a collection/array just because you make it blank tasks = [];

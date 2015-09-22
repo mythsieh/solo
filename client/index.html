@@ -12,8 +12,10 @@
       <h2>Today is: </h2>
     </div>
     <div ng-controller="TableController">
-      <input type="text" placeholder="new todo" ng-model="newTask">
+      <input type="text" placeholder="new task" ng-model="newTask">
       <button ng-click="addTask(newTask); newTask =''">Add me!</button>
+      <input type="text" placeholder="delete task" ng-model="delTask">
+      <button ng-click="deleteTask(delTask); delTask =''">Delete me!</button>
       <table id="myTable">
         <thead>
           <tr>
@@ -29,7 +31,15 @@
         </thead>
         <tbody>
           <tr ng-repeat="task in tasks">
-            <td ng-repeat="(key, value) in task" ng-click="updateDay(value);" ng-class="{'red': value === 0, 'green': value === 1, 'default': value === 2}">{{value}}</td>
+            <!-- <td ng-repeat="(key, value) in task" ng-click="updateDay(value);" ng-class="{'red': value === 0, 'green': value === 1, 'default': value === 2}">{{value}}</td> -->
+            <td>{{task.name}}</td>
+            <td ng-click="updateDay('sunday', task);" ng-class="{'red': task['sunday'] === 0, 'green': task['sunday'] === 1, 'default': task['sunday'] === 2}"></td>
+            <td ng-click="updateDay('monday', task);" ng-class="{'red': task['monday'] === 0, 'green': task['monday'] === 1, 'default': task['monday'] === 2}"></td>
+            <td ng-click="updateDay('tuesday', task);" ng-class="{'red': task['tuesday'] === 0, 'green': task['tuesday'] === 1, 'default': task['tuesday'] === 2}"></td>
+            <td ng-click="updateDay('wednesday', task);" ng-class="{'red': task['wednesday'] === 0, 'green': task['wednesday'] === 1, 'default': task['wednesday'] === 2}"></td>
+            <td ng-click="updateDay('thursday', task);" ng-class="{'red': task['thursday'] === 0, 'green': task['thursday'] === 1, 'default': task['thursday'] === 2}"></td>
+            <td ng-click="updateDay('friday', task);" ng-class="{'red': task['friday'] === 0, 'green': task['friday'] === 1, 'default': task['friday'] === 2}"></td>
+            <td ng-click="updateDay('saturday', task);" ng-class="{'red': task['saturday'] === 0, 'green': task['saturday'] === 1, 'default': task['saturday'] === 2}"></td>
           </tr>
         </tbody>
       </table>

@@ -12,32 +12,42 @@ angular.module('weeklies', [])
         for (var i = 0 ; i < data.length; i++){
           tasks.push(data[i]);
         }
-        // tasks = data;
-        console.log('i am in http get: ', data);
+        // console.log('i am in http get: ', data);
       })
       .error(function(data){
         console.log('Error: ' + data);
       });
     
     var addTask = function(task){
-      var obj = {
-        name: task,
-        sunday: 0,
-        monday: 0,
-        tuesday: 0,
-        wednesday: 0,
-        thursday: 0,
-        friday: 0,
-        saturday: 0
-      };
-      $http.post('/api/tasks', obj)
-        .success(function(data){
-          console.log(' i am in http post: ', data);
-          tasks.push(data[data.length - 1]);
-        })
-        .error(function(data){
-          console.log('Error: ' + data);
-        })
+      // check to see if the task already exists
+      var result;
+      for (var i = 0; i < this.tasks.length; i++){
+        if (this.tasks[i].name === task){
+          result = this.tasks[i];
+        }
+      }
+      if (!result){
+        var obj = {
+          name: task,
+          sunday: 0,
+          monday: 0,
+          tuesday: 0,
+          wednesday: 0,
+          thursday: 0,
+          friday: 0,
+          saturday: 0
+        };
+        $http.post('/api/tasks', obj)
+          .success(function(data){
+            // console.log(' i am in http post: ', data);
+            tasks.push(data[data.length - 1]);
+          })
+          .error(function(data){
+            console.log('Error: ' + data);
+          })
+      } else {
+        alert('Task already exists!');
+      }
     };
     
     var updateDay = function(day, obj){
@@ -48,7 +58,7 @@ angular.module('weeklies', [])
       }
       $http.put('/api/tasks', obj)
         .success(function(){
-          console.log('Success!');
+          // console.log('Success!');
         }).error(function(data){
           console.log('Error: ' + data);
         });
@@ -60,6 +70,8 @@ angular.module('weeklies', [])
       for (var i = 0; i < this.tasks.length; i++){
         if (this.tasks[i].name === task){
           result = this.tasks[i];
+          // remove task from front end
+          this.tasks.splice(i, 1);
         }
       }
       // if result was found
@@ -68,7 +80,7 @@ angular.module('weeklies', [])
         // $http.delete('/api/tasks')
         $http.delete(url)
           .success(function(){
-            console.log('Sent through http delete!');
+            // console.log('Sent through http delete!');
           }).error(function(data){
             console.log('Error in delete: ', data);
           })        

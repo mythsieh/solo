@@ -1,8 +1,8 @@
-angular.module('weeklies', [])
+angular.module('weeklies', ['ngSanitize'])
   .controller('TableController', function($scope, Tasks){
     angular.extend($scope, Tasks);
   })
-  .factory('Tasks', function($http){
+  .factory('Tasks', function($http, $sanitize){
     var tasks = [];
 
     // when landing on the page, get all tasks and show them
@@ -21,14 +21,15 @@ angular.module('weeklies', [])
     var addTask = function(task){
       // check to see if the task already exists
       var result;
+      var sanitizedTask = $sanitize(task);
       for (var i = 0; i < this.tasks.length; i++){
-        if (this.tasks[i].name === task){
+        if (this.tasks[i].name === sanitizedTask){
           result = this.tasks[i];
         }
       }
       if (!result){
         var obj = {
-          name: task,
+          name: sanitizedTask,
           sunday: 0,
           monday: 0,
           tuesday: 0,
@@ -67,8 +68,9 @@ angular.module('weeklies', [])
     var deleteTask = function(task){
       var result;
       // go through the tasks array and find matching name
+      var sanitizedTask = $sanitize(task);
       for (var i = 0; i < this.tasks.length; i++){
-        if (this.tasks[i].name === task){
+        if (this.tasks[i].name === sanitizedTask){
           result = this.tasks[i];
           // remove task from front end
           this.tasks.splice(i, 1);
